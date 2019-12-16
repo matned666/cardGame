@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.List;
+
 public class Stock<E> {
 
     private Element top;
@@ -7,6 +10,32 @@ public class Stock<E> {
 
     public Stock(E value) {
         this.top = new Element(value, null);
+    }
+
+    public Element getTop() {
+        return this.top;
+    }
+
+    public List<E> leaveOnlyTop(){
+        E pop1 = this.pop();
+        List<E> temp= new LinkedList<>();
+        while(!this.isEmpty()){
+            E pop = this.pop();
+            temp.add(pop);
+        }
+        push(pop1);
+        return temp;
+    }
+
+    public int getStockSize(){
+        int counter = 1;
+        Element actual = this.top;
+        while(actual.previous != null){
+            actual = actual.previous;
+            counter++;
+
+        }
+        return counter;
     }
 
     public void push(E value){

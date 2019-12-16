@@ -1,7 +1,6 @@
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Deal {
 
@@ -24,14 +23,13 @@ public class Deal {
 
     public void firstDeal() {
         int max = 52;
-        List temp = new LinkedList();
         int counter = 1;
         for (int i = 1; i <= 10; i++) {
             if (player1.getHand().size() < 5 && counter % 2 == 1) {
                 Random randomGenerator = new Random();
                 int randomizer = Math.abs(randomGenerator.nextInt(max));
 
-                player1.addCard((Card) cardDeck.deck().get(randomizer));
+                player1.addCard(cardDeck.deck().get(randomizer));
                 cardDeck.deck().remove(randomizer);
                 max -= 1;
                 counter++;
@@ -41,7 +39,7 @@ public class Deal {
                 Random randomGenerator = new Random();
                 int randomizer = Math.abs(randomGenerator.nextInt(max));
 
-                player2.addCard((Card) cardDeck.deck().get(randomizer));
+                player2.addCard(cardDeck.deck().get(randomizer));
                 cardDeck.deck().remove(randomizer);
                 max -= 1;
                 counter++;
@@ -52,22 +50,26 @@ public class Deal {
         Random randomGenerator = new Random();
         int randomizer = Math.abs(randomGenerator.nextInt(max));
 
-        stock.push((Card) cardDeck.deck().get(randomizer));
+        stock.push(cardDeck.deck().get(randomizer));
         cardDeck.deck().remove(randomizer);
     }
 
-
-    public void geCardFromDeck(Hand player){
-        Random randomGenerator = new Random();
-        int randomizer = Math.abs(randomGenerator.nextInt(cardDeck.deck().size())+1);
-
-        player.addCard((Card) cardDeck.deck().get(randomizer));
-        cardDeck.deck().remove(randomizer);
-        System.out.println("\nYour cards: ");
-        printHand(player);
-
+    public void getCardFromDeck(Hand player, int cardsAmound){
+        for(int i = 1 ; i <= cardsAmound; i++) {
+            Random randomGenerator = new Random();
+            int randomizer = Math.abs(randomGenerator.nextInt(cardDeck.deck().size()));
+            player.addCard(cardDeck.deck().get(randomizer));
+            cardDeck.deck().remove(randomizer);
+            if (getDeck().size() == 0) {
+                getDeck().addAll(stock.leaveOnlyTop());
+            }
+        }
     }
 
+    public void putCardOnStock(Hand player, int cardId){
+            stock.push(player.getHand().get(cardId));
+            player.getHand().remove(cardId);
+    }
 
 
 
@@ -76,12 +78,17 @@ public class Deal {
     }
 
     public void printHand(Hand player){
-        player.getHand().stream().map(x -> x.getCard()+" , ").forEach(System.out::print);
+        AtomicInteger y= new AtomicInteger();
+        player.getHand().stream().map(x -> x.getCard()+(y.getAndIncrement())+" , ").forEach(System.out::print);
         System.out.println();
     }
 
     public void printCardDeck(){
             cardDeck.deck().stream().map(x-> x.getCard()).forEach(System.out::println);
+    }
+
+    public Stock getStock() {
+        return stock;
     }
 
     public Hand getPlayer1() {

@@ -14,6 +14,10 @@ public class Hand extends Player{
         hand.add(card);
     }
 
+    public void removeCard (Card card){
+        hand.remove(card);
+    }
+
     public List<Card> getHand() {
         return hand;
     }
