@@ -20,15 +20,16 @@ public class Game {
         boolean choiceBool;
         Scanner keys = new Scanner(System.in);
         String choice = "";
-        CompIQ iq = new CompIQ(deal);
+        CompIQ iq = new CompIQ(deal,deal.getComputerPlayer1());
+        boolean action = false;
 
         System.out.println();
         Menu.menuStandard();
         System.out.print("Your cards: ");
-        deal.printHand(deal.getPlayer1());
+        deal.printHand(deal.getHumanPlayer());
         System.out.println("The top card is: " + deal.getTopCard().getCard());
 
-        while(!choice.toUpperCase().equals("Q")) {
+        while(!choice.toUpperCase().equals("Q") || deal.getHumanPlayer().getHand().isEmpty() || deal.getComputerPlayer1().getHand().isEmpty()) {
 
             choiceBool = false;
             do {
@@ -37,11 +38,13 @@ public class Game {
 
                 if (isNumeric(choice)){
                     try {
-                        if (Integer.parseInt(choice) < deal.getPlayer1().getHand().size() && Double.parseDouble(choice) >= 0) {
+                        if ((Integer.parseInt(choice) < deal.getHumanPlayer().getHand().size() && Double.parseDouble(choice) >= 0)
+                              && (deal.getHumanPlayer().getHand().get(Integer.parseInt(choice)).getFigure() == deal.getTopCard().getFigure()
+                                   || deal.getHumanPlayer().getHand().get(Integer.parseInt(choice)).getColor() == deal.getTopCard().getColor())) {
 
-                            deal.putCardOnStock(deal.getPlayer1(), Integer.parseInt(choice));
+                            deal.putCardOnStock(deal.getHumanPlayer(), Integer.parseInt(choice));
                             System.out.print("Your cards: ");
-                            deal.printHand(deal.getPlayer1());
+                            deal.printHand(deal.getHumanPlayer());
                             System.out.println("The top card is: " + deal.getTopCard().getCard());
                             choiceBool = true;
 
@@ -50,21 +53,21 @@ public class Game {
                             Menu.errorMessage1();
                         }
                     }catch(NumberFormatException ex){
-                        Menu.errorMessage1();
+                         Menu.errorMessage1();
                     }
                 }else {
                     if (choice.toUpperCase().equals("D")) {
-                        deal.getCardFromDeck(deal.getPlayer1(), deal.getTopCard().getCardMultiplier());
+                        deal.getCardFromDeck(deal.getHumanPlayer(), 1);
                         System.out.print("Your cards: ");
-                        deal.printHand(deal.getPlayer1());
+                        deal.printHand(deal.getHumanPlayer());
                         choiceBool = true;
                     } else if (choice.toUpperCase().equals("S")) {
                         System.out.println("The top card is: " + deal.getTopCard().getCard());
                     } else if (choice.toUpperCase().equals("I")) {
-                        Menu.menuInfo(deal.getDeck().size(), deal.getStock().getStockSize(), deal.getPlayer2().getHand().size());
+                        Menu.menuInfo(deal.getDeck().size(), deal.getStock().getStockSize(), deal.getComputerPlayer1().getHand().size());
                     } else if (choice.toUpperCase().equals("Y")) {
                         System.out.print("Your cards: ");
-                        deal.printHand(deal.getPlayer1());
+                        deal.printHand(deal.getHumanPlayer());
                     } else if (choice.toUpperCase().equals("M")) {
                         Menu.menuStandard();
                     }else if (choice.toUpperCase().equals("Q")) break;
@@ -73,8 +76,12 @@ public class Game {
                     }
                 }
             }while(choiceBool != true);
+            if(deal.getHumanPlayer().getHand().isEmpty()) break;
             iq.play();
+            if(deal.getComputerPlayer1().getHand().isEmpty()) break;
         }
+        if(deal.getHumanPlayer().getHand().isEmpty()) System.out.println("$$$$$$$$$$ WYGRAŁEŚ $$$$$$$$$$");
+        if(deal.getComputerPlayer1().getHand().isEmpty()) System.out.println("********** PRZEGRAŁEŚ **********");
     }
 
 }

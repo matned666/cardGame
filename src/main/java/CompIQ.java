@@ -3,14 +3,16 @@ import java.util.*;
 public class CompIQ {
 
     private Deal deal;
+    private Hand hand;
 
-    public CompIQ(Deal deal) {
+    public CompIQ(Deal deal, Hand hand) {
+        this.hand = hand;
         this.deal = deal;
     }
 
     public List<Card> tempHand() {
         List<Card> tempHand = new LinkedList<>();
-        for (Card el : this.deal.getPlayer2().getHand()) {
+        for (Card el : this.hand.getHand()) {
             tempHand.add(el);
         }
         return tempHand;
@@ -38,8 +40,8 @@ public class CompIQ {
                     || ((possibleThrows().get(i).getFigure().equals(CardFigure.K))
                     && (possibleThrows().get(i).getColor().equals(CardColor.HEARTS)
                     || possibleThrows().get(i).getColor().equals(CardColor.SPADES)))) {
-                if (deal.getPlayer1().getHand().size() < 5)
-                    priorities[i] = possibleThrows().get(i).getPriority() * (5 - deal.getPlayer1().getHand().size());
+                if (deal.getHumanPlayer().getHand().size() < 5)
+                    priorities[i] = possibleThrows().get(i).getPriority() * (5 - deal.getHumanPlayer().getHand().size());
                 else priorities[i] = possibleThrows().get(i).getPriority();
             } else priorities[i] = possibleThrows().get(i).getPriority();
         }
@@ -79,7 +81,6 @@ public class CompIQ {
     }
 
     public Card chooseBestCard() {
-        Card temp;
         int max = priorities()[0];
         for (int i = 0; i < priorities().length; i++) {
             if (priorities()[i] > max) max = priorities()[i];
@@ -89,14 +90,14 @@ public class CompIQ {
 
     public void play() {
         if (possibleThrows().size() == 0) {
-            deal.getCardFromDeck(deal.getPlayer2(), 1);
-            if(deal.getPlayer2().getHand().get(deal.getPlayer2().getHand().size()-1).getColor()!=deal.getTopCard().getColor()
-                    || deal.getPlayer2().getHand().get(deal.getPlayer2().getHand().size()-1).getFigure()!=deal.getTopCard().getFigure())
-                                                 deal.getCardFromDeck(deal.getPlayer2(), deal.getTopCard().getCardMultiplier()-1);
-            System.out.println("*******  Oponent takes cards, he has now "+deal.getPlayer2().getHand().size()+" cards  *******");
+            deal.getCardFromDeck(hand, 1);
+            if(hand.getHand().get(hand.getHand().size()-1).getColor()!=deal.getTopCard().getColor()
+                    || hand.getHand().get(hand.getHand().size()-1).getFigure()!=deal.getTopCard().getFigure())
+                                                 deal.getCardFromDeck(hand, 1);
+            System.out.println("*******  Oponent takes cards, he has now "+hand.getHand().size()+" cards  *******");
         }else{
-            deal.putCardOnStock(deal.getPlayer2(), findIndex(deal.getPlayer2().getHand(),chooseBestCard()));
-            System.out.println("*******  Oponent throws: " + deal.getTopCard().getCard()+" on TOP, he has now "+deal.getPlayer2().getHand().size()+" cards  *******");
+            deal.putCardOnStock(hand, findIndex(hand.getHand(),chooseBestCard()));
+            System.out.println("*******  Oponent throws: " + deal.getTopCard().getCard()+" on TOP, he has now "+hand.getHand().size()+" cards  *******");
         }
     }
 }
