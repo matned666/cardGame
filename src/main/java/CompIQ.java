@@ -93,10 +93,10 @@ public class CompIQ {
             if(deal.getPlayer2().getHand().get(deal.getPlayer2().getHand().size()-1).getColor()!=deal.getTopCard().getColor()
                     || deal.getPlayer2().getHand().get(deal.getPlayer2().getHand().size()-1).getFigure()!=deal.getTopCard().getFigure())
                                                  deal.getCardFromDeck(deal.getPlayer2(), deal.getTopCard().getCardMultiplier()-1);
-            System.out.println("***Oponent takes cards***");
+            System.out.println("*******  Oponent takes cards, he has now "+deal.getPlayer2().getHand().size()+" cards  *******");
         }else{
             deal.putCardOnStock(deal.getPlayer2(), findIndex(deal.getPlayer2().getHand(),chooseBestCard()));
-            System.out.println("***Oponent throws: " + deal.getTopCard().getCard()+" on top***");
+            System.out.println("*******  Oponent throws: " + deal.getTopCard().getCard()+" on TOP, he has now "+deal.getPlayer2().getHand().size()+" cards  *******");
         }
     }
 }
