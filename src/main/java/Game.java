@@ -20,6 +20,7 @@ public class Game {
         boolean choiceBool;
         Scanner keys = new Scanner(System.in);
         String choice = "";
+        CompIQ iq = new CompIQ(deal);
 
         System.out.println();
         Menu.menuStandard();
@@ -53,7 +54,7 @@ public class Game {
                     }
                 }else {
                     if (choice.toUpperCase().equals("D")) {
-                        deal.getCardFromDeck(deal.getPlayer1());
+                        deal.getCardFromDeck(deal.getPlayer1(), deal.getTopCard().getCardMultiplier());
                         System.out.print("Your cards: ");
                         deal.printHand(deal.getPlayer1());
                         choiceBool = true;
@@ -72,6 +73,7 @@ public class Game {
                     }
                 }
             }while(choiceBool != true);
+            iq.play();
         }
     }
 

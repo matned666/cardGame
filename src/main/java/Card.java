@@ -59,6 +59,10 @@ public class Card {
         return wage;
     }
 
+    public int getCardMultiplier() {
+        return cardMultiplier;
+    }
+
     public String getCard(){
         return "["+getFigureStr()+" "+getColorStr()+"]";
     }
