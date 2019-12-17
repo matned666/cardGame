@@ -27,6 +27,7 @@ public class Game {
         Menu.menuStandard();
         System.out.print("Your cards: ");
         deal.printHand(deal.getHumanPlayer());
+
         System.out.println("The top card is: " + deal.getTopCard().getCard());
 
         while(!choice.toUpperCase().equals("Q") || deal.getHumanPlayer().getHand().isEmpty() || deal.getComputerPlayer1().getHand().isEmpty()) {
@@ -45,6 +46,7 @@ public class Game {
                             deal.putCardOnStock(deal.getHumanPlayer(), Integer.parseInt(choice));
                             System.out.print("Your cards: ");
                             deal.printHand(deal.getHumanPlayer());
+
                             System.out.println("The top card is: " + deal.getTopCard().getCard());
                             choiceBool = true;
 

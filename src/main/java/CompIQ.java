@@ -91,10 +91,7 @@ public class CompIQ {
     public void play() {
         if (possibleThrows().size() == 0) {
             deal.getCardFromDeck(hand, 1);
-            if(hand.getHand().get(hand.getHand().size()-1).getColor()!=deal.getTopCard().getColor()
-                    || hand.getHand().get(hand.getHand().size()-1).getFigure()!=deal.getTopCard().getFigure())
-                                                 deal.getCardFromDeck(hand, 1);
-            System.out.println("*******  Oponent takes cards, he has now "+hand.getHand().size()+" cards  *******");
+            System.out.println("*******  Oponent takes a card, he has now "+hand.getHand().size()+" cards  *******");
         }else{
             deal.putCardOnStock(hand, findIndex(hand.getHand(),chooseBestCard()));
             System.out.println("*******  Oponent throws: " + deal.getTopCard().getCard()+" on TOP, he has now "+hand.getHand().size()+" cards  *******");

@@ -10,7 +10,7 @@ public class Actions {
         this.seccondPlayer = seccondPlayer;
     }
 
-
+//  KLASA DO ZROBIENIA  -  ZASADY MAKAO
 
     public void normal(){
 
