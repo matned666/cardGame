@@ -1,13 +1,14 @@
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Rules {
 
-    private int amoundOfCardsToTake;
     private Card stockTopCard;
     private Deal deal;
     private CardColor claimedColor;
     private CardFigure claimedFigure;
+
 
     public Rules(Deal deal) {
         this.deal = deal;
@@ -98,6 +99,19 @@ public class Rules {
         if(deal.getTopCard().getFigure()==CardFigure.N4) return true;
         else return false;
     }
+
+    public boolean isCorrect(Card card){
+        boolean temp = false;
+        for(Card el: possibleMove()){
+            if (el.getColor().equals(card.getColor())&&el.getFigure().equals(card.getFigure())) temp = true;
+        }
+        if (!temp){
+            System.out.println("Invalid choice.\nWhat to do: ");
+        }
+        return temp;
+    }
+
+
 
 
 

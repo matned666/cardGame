@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Deal {
@@ -75,10 +76,23 @@ public class Deal {
         }
     }
 
+    public int amountOfSameFigures(Hand player,Card card){
+        int amount = 0;
+        for(Card el: player.getHand()){
+            if(el.getFigure().equals(card.getFigure())) amount++;
+        }
+        return amount;
+    }
+
+
+
     public void putCardOnStock(Hand player, int cardId){
+
             stock.push(player.getHand().get(cardId));
             player.getHand().remove(cardId);
     }
+
+
 
 
 

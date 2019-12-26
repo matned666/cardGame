@@ -19,6 +19,10 @@ public class Menu {
         System.out.println("Choose which color would you demand from your hand (1,2,3,...) or 'A' - for no demand: ");
     }
 
+    public static void manyCardChoice(){
+        System.out.println("Choose another card of the same color or choose 'E' to continue: ");
+    }
+
     public static void errorMessage1(){
         System.out.println("Invalid choice.");
     }
